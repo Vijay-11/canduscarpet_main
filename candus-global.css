@@ -1,0 +1,2502 @@
+/* ==========================================================================
+   CANDUS FLOORS & FURNISHINGS — site stylesheet
+   Target: Wix Studio (paste into your global.css / Custom CSS file)
+
+   Everything is scoped under .cd-root so nothing here can leak into
+   the Wix editor chrome, the Wix header/footer, or any other page section.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap');
+
+.cd-root {
+  /* ---- brand palette (pulled from canduscarpet.co.in) ---- */
+  --cd-black:      #0B0B0B;
+  --cd-ink:        #141316;
+  --cd-panel:      #1A181C;
+  --cd-panel-2:    #221F25;
+  --cd-line-dk:    rgba(255, 255, 255, .10);
+  --cd-line-lt:    rgba(11, 11, 11, .12);
+
+  --cd-gold:       #C6A567;  /* on dark surfaces */
+  --cd-gold-lt:    #E0C68F;
+  /* Gold for LIGHT surfaces. #A98A4C only reached 2.9:1 on cream, which is
+     under the 4.5:1 small-text bar — eyebrows and link labels were hard to
+     read. This deeper tone clears 5.3:1 on cream and 5.9:1 on white. */
+  --cd-gold-dk:    #7A5F28;
+  /* Mid gold for LARGE display numerals only (3:1 bar applies there), so
+     the stat strip keeps its warmth instead of going bronze. */
+  --cd-gold-mid:   #9A7C3F;
+  --cd-tan:        #CCBD99;
+
+  --cd-white:      #FFFFFF;
+  --cd-cream:      #F5F2EC;
+  --cd-cream-2:    #EDE8DE;
+
+  --cd-on-dark:    #F5F3F1;
+  --cd-on-dark-mu: rgba(245, 243, 241, .68);
+  --cd-on-dark-fa: rgba(245, 243, 241, .45);
+  --cd-on-light:   #0B0B0B;
+  --cd-on-light-mu:#5B574F;
+
+  /* ---- type ---- */
+  --cd-serif:  'Cormorant Garamond', 'Adobe Caslon Pro', Georgia, serif;
+  --cd-sans:   'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --cd-label:  'Oswald', 'Helvetica Neue', Arial, sans-serif;
+
+  /* ---- one type scale for the whole page ----
+     Every piece of running text and every subhead pulls from these four
+     sizes, so nothing drifts a half-pixel out of step between sections. */
+  /* Scaled up across the board (client review 30 Sep): running text had to be
+     readable without zooming. Every page pulls from these four, so one edit
+     here moves the whole site together. */
+  --cd-fs-lede:  20px;   /* section intros, hero paragraph */
+  --cd-fs-body:  17px;   /* card and list body copy */
+  --cd-fs-meta:  15px;   /* captions, chips, small print */
+  --cd-fs-label: 14.5px; /* eyebrows, buttons, column heads */
+
+  --cd-lh-lede:  1.75;
+  --cd-lh-body:  1.72;
+
+  /* ---- one weight scale ---- */
+  --cd-w-body:   400;
+  --cd-w-med:    500;
+  --cd-w-bold:   600;
+
+  /* ---- layout ---- */
+  --cd-max:    1320px;
+  --cd-pad:    28px;
+  --cd-sec:    92px;
+
+  font-family: var(--cd-sans);
+  color: var(--cd-on-dark);
+  background: var(--cd-black);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  display: block;
+}
+
+/* Reset only inside our page — never global */
+.cd-root *,
+.cd-root *::before,
+.cd-root *::after { box-sizing: border-box; }
+
+.cd-root h1, .cd-root h2, .cd-root h3,
+.cd-root h4, .cd-root p, .cd-root figure,
+.cd-root ul, .cd-root ol { margin: 0; padding: 0; }
+
+.cd-root ul, .cd-root ol { list-style: none; }
+.cd-root img { display: block; max-width: 100%; }
+.cd-root a { text-decoration: none; color: inherit; }
+.cd-root button { font: inherit; cursor: pointer; }
+.cd-root ::selection { background: var(--cd-gold); color: #000; }
+
+/* ==========================================================================
+   SHARED PIECES
+   ========================================================================== */
+
+.cd-root .cd-wrap { max-width: var(--cd-max); margin: 0 auto; width: 100%; }
+
+.cd-root .cd-section { padding: var(--cd-sec) var(--cd-pad); position: relative; }
+.cd-root .cd-section--tight { padding-top: 58px; padding-bottom: 58px; }
+
+/* --- surfaces: this is what gives the page its light/dark rhythm --- */
+.cd-root .cd-dark   { background: var(--cd-black); color: var(--cd-on-dark); }
+.cd-root .cd-dark-2 { background: var(--cd-ink);   color: var(--cd-on-dark); }
+.cd-root .cd-light  { background: var(--cd-white); color: var(--cd-on-light); }
+.cd-root .cd-cream  { background: var(--cd-cream); color: var(--cd-on-light); }
+
+/* eyebrow label */
+.cd-root .cd-eyebrow {
+  font-family: var(--cd-label);
+  font-size: var(--cd-fs-label);
+  font-weight: var(--cd-w-med);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--cd-gold);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.cd-root .cd-eyebrow::before {
+  content: "";
+  width: 30px; height: 1px;
+  background: var(--cd-gold);
+  flex: none;
+}
+.cd-root .cd-eyebrow--center { justify-content: center; }
+.cd-root .cd-eyebrow--center::after {
+  content: "";
+  width: 30px; height: 1px;
+  background: var(--cd-gold);
+  flex: none;
+}
+.cd-root .cd-light .cd-eyebrow,
+.cd-root .cd-cream .cd-eyebrow { color: var(--cd-gold-dk); }
+.cd-root .cd-light .cd-eyebrow::before,
+.cd-root .cd-light .cd-eyebrow::after,
+.cd-root .cd-cream .cd-eyebrow::before,
+.cd-root .cd-cream .cd-eyebrow::after { background: var(--cd-gold-dk); }
+
+/* headings */
+.cd-root .cd-h1 {
+  font-family: var(--cd-serif);
+  font-weight: var(--cd-w-bold);
+  font-size: clamp(46px, 6.2vw, 82px);
+  line-height: 1.04;
+  letter-spacing: -.005em;
+}
+.cd-root .cd-h2 {
+  font-family: var(--cd-serif);
+  font-weight: var(--cd-w-bold);
+  font-size: clamp(32px, 4vw, 54px);
+  line-height: 1.14;
+}
+.cd-root .cd-h3 {
+  font-family: var(--cd-label);
+  font-weight: var(--cd-w-med);
+  font-size: 21px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.cd-root .cd-lede {
+  font-size: var(--cd-fs-lede);
+  line-height: var(--cd-lh-lede);
+  color: var(--cd-on-dark-mu);
+  margin-top: 18px;
+}
+.cd-root .cd-light .cd-lede,
+.cd-root .cd-cream .cd-lede { color: var(--cd-on-light-mu); }
+
+.cd-root .cd-head { max-width: 780px; }
+.cd-root .cd-head--center { margin-left: auto; margin-right: auto; text-align: center; }
+.cd-root .cd-head .cd-h2 { margin-top: 14px; }
+
+/* buttons
+   Client review 30 Sep: CTAs were "barely visible and didn't look like CTAs".
+   Every primary button now carries a solid golden ground, a larger label and
+   a lift-plus-shadow on hover; secondary buttons gained a translucent fill so
+   they read as buttons rather than hairline outlines. */
+.cd-root .cd-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--cd-label);
+  font-size: 15.5px;
+  font-weight: var(--cd-w-med);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 18px 36px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  transition: background .22s ease, color .22s ease, border-color .22s ease,
+              transform .22s ease, box-shadow .22s ease;
+  white-space: nowrap;
+}
+.cd-root .cd-btn:hover { transform: translateY(-2px); }
+.cd-root .cd-btn:active { transform: translateY(0); }
+
+/* PRIMARY — solid gold, deepens on hover */
+.cd-root .cd-btn--gold,
+.cd-root .cd-btn--dark {
+  background: var(--cd-gold);
+  color: #14110A;
+  border-color: var(--cd-gold);
+  box-shadow: 0 6px 18px rgba(198, 165, 103, .26);
+}
+.cd-root .cd-btn--gold:hover,
+.cd-root .cd-btn--dark:hover {
+  background: var(--cd-gold-dk);
+  border-color: var(--cd-gold-dk);
+  color: #fff;
+  box-shadow: 0 10px 26px rgba(122, 95, 40, .38);
+}
+
+/* SECONDARY on a dark surface */
+.cd-root .cd-btn--ghost {
+  border-color: var(--cd-gold);
+  color: var(--cd-gold);
+  background: rgba(198, 165, 103, .10);
+}
+.cd-root .cd-btn--ghost:hover {
+  background: var(--cd-gold);
+  color: #14110A;
+  box-shadow: 0 10px 26px rgba(198, 165, 103, .30);
+}
+
+/* SECONDARY on a light surface */
+.cd-root .cd-btn--ghost-dark {
+  border-color: var(--cd-gold-dk);
+  color: var(--cd-gold-dk);
+  background: rgba(198, 165, 103, .12);
+}
+.cd-root .cd-btn--ghost-dark:hover {
+  background: var(--cd-gold-dk);
+  color: #fff;
+  box-shadow: 0 10px 26px rgba(122, 95, 40, .30);
+}
+
+/* small round arrow control */
+.cd-root .cd-arrow {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(245,243,241,.28);
+  background: transparent;
+  color: var(--cd-on-dark);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+  flex: none;
+}
+.cd-root .cd-arrow:hover { background: var(--cd-gold); border-color: var(--cd-gold); color: #14110A; }
+.cd-root .cd-light .cd-arrow,
+.cd-root .cd-cream .cd-arrow { border-color: var(--cd-line-lt); color: var(--cd-on-light); }
+.cd-root .cd-light .cd-arrow:hover,
+.cd-root .cd-cream .cd-arrow:hover { background: var(--cd-black); border-color: var(--cd-black); color: var(--cd-white); }
+
+/* ==========================================================================
+   1. HEADER  (delete this block if you use the native Wix Studio header)
+   ========================================================================== */
+
+.cd-root .cd-header {
+  position: sticky; top: 0; z-index: 60;
+  background: rgba(11,11,11,.90);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--cd-line-dk);
+}
+.cd-root .cd-header__in {
+  max-width: var(--cd-max);
+  margin: 0 auto;
+  padding: 14px var(--cd-pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+}
+.cd-root .cd-logo img { height: 68px; width: auto; }
+.cd-root .cd-nav { display: flex; align-items: center; gap: 30px; }
+.cd-root .cd-nav a {
+  font-family: var(--cd-label);
+  font-size: 15.5px;
+  font-weight: 400;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--cd-on-dark);
+  padding: 6px 0;
+  border-bottom: 1px solid transparent;
+  transition: color .2s ease, border-color .2s ease;
+}
+.cd-root .cd-nav a:hover { color: var(--cd-gold); border-color: var(--cd-gold); }
+
+.cd-root .cd-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: 0;
+  padding: 8px;
+}
+.cd-root .cd-burger span { width: 22px; height: 2px; background: var(--cd-on-dark); display: block; }
+
+.cd-root .cd-mobnav {
+  display: none;
+  border-top: 1px solid var(--cd-line-dk);
+  padding: 12px var(--cd-pad) 22px;
+  background: var(--cd-black);
+}
+.cd-root .cd-mobnav.is-open { display: block; }
+.cd-root .cd-mobnav a {
+  display: block;
+  padding: 12px 0;
+  font-family: var(--cd-label);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-size: 14px;
+  border-bottom: 1px solid var(--cd-line-dk);
+}
+
+/* ==========================================================================
+   2. HERO — one section, photo as background, copy sitting on top
+   ========================================================================== */
+
+.cd-root .cd-hero {
+  position: relative;
+  min-height: min(88vh, 780px);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: var(--cd-black);
+  padding: 0;
+}
+
+.cd-root .cd-hero__slides { position: absolute; inset: 0; }
+.cd-root .cd-hero__slide {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.06);
+  transition: opacity 1.1s ease, transform 7s linear;
+}
+.cd-root .cd-hero__slide.is-active { opacity: 1; transform: scale(1); }
+
+/* Scrim lightened per client feedback — the carpet in the photograph now
+   reads through clearly. The copy stays legible because the left-hand
+   gradient still carries enough density behind the text column only. */
+.cd-root .cd-hero__scrim {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(8,8,9,.72) 0%, rgba(8,8,9,.48) 40%, rgba(8,8,9,.10) 70%, rgba(8,8,9,.18) 100%),
+    linear-gradient(180deg, rgba(8,8,9,.34) 0%, rgba(8,8,9,0) 36%, rgba(8,8,9,.62) 100%);
+  pointer-events: none;
+}
+
+.cd-root .cd-hero__in {
+  position: relative;
+  z-index: 2;
+  max-width: var(--cd-max);
+  margin: 0 auto;
+  width: 100%;
+  padding: 140px var(--cd-pad) 96px;
+}
+.cd-root .cd-hero__copy { max-width: 720px; }
+.cd-root .cd-hero__title { margin-top: 20px; color: #fff; }
+.cd-root .cd-hero__title em {
+  font-style: normal;
+  color: var(--cd-gold);
+  display: block;
+}
+.cd-root .cd-hero__text {
+  margin-top: 24px;
+  max-width: 660px;
+  font-size: var(--cd-fs-lede);
+  line-height: var(--cd-lh-lede);
+  color: rgba(245,243,241,.88);
+  /* the photo shows through more now, so the paragraph gets its own lift */
+  text-shadow: 0 1px 18px rgba(8,8,9,.75);
+}
+.cd-root .cd-hero__title { text-shadow: 0 2px 26px rgba(8,8,9,.55); }
+.cd-root .cd-hero__cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+
+.cd-root .cd-hero__nav {
+  position: absolute;
+  z-index: 3;
+  right: max(var(--cd-pad), calc((100vw - var(--cd-max)) / 2));
+  bottom: 96px;
+  display: flex;
+  gap: 10px;
+}
+.cd-root .cd-hero__dots {
+  position: absolute;
+  z-index: 3;
+  left: max(var(--cd-pad), calc((100vw - var(--cd-max)) / 2));
+  bottom: 46px;
+  display: flex;
+  gap: 8px;
+}
+.cd-root .cd-dot {
+  width: 34px; height: 3px;
+  border: 0; padding: 0;
+  background: rgba(245,243,241,.30);
+  transition: background .25s ease;
+}
+.cd-root .cd-dot.is-active { background: var(--cd-gold); }
+
+/* ==========================================================================
+   3. TRUSTED BY — white band, black text
+   ========================================================================== */
+
+.cd-root .cd-trusted { padding: 46px var(--cd-pad); }
+.cd-root .cd-trusted__label {
+  font-family: var(--cd-label);
+  font-size: 14px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--cd-on-light-mu);
+  text-align: center;
+}
+.cd-root .cd-trusted__row {
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+/* Logos run in their own colours — no greyscale, no inversion.
+   Checked pixel-by-pixel: all eight source files are squares with a solid
+   BLACK ground baked in, so the tile is black too and each logo's own
+   background disappears into it. The result is a row of black chips
+   carrying full-colour marks, sitting on the white band.
+   If these are ever re-uploaded as transparent PNGs, add
+   cd-trusted__tile--plain for a white chip instead. */
+/* Square tiles — every source file is a square with the mark centred, so a
+   wide tile would just pad it out with dead black space. */
+.cd-root .cd-trusted__tile {
+  width: 122px;
+  height: 122px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  background: #000;
+  border-radius: 3px;
+  overflow: hidden;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.cd-root .cd-trusted__tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(11, 11, 11, .20);
+}
+.cd-root .cd-trusted__tile img {
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+.cd-root .cd-trusted__tile--plain {
+  background: var(--cd-white);
+  border: 1px solid var(--cd-line-lt);
+}
+
+/* ==========================================================================
+   4. INDUSTRIES — dark image cards
+   ========================================================================== */
+
+.cd-root .cd-grid-ind {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+/* column-count modifiers for the related-ranges rail; a class, never an inline
+   style, so the breakpoints below can still win */
+.cd-root .cd-grid-ind--2 { grid-template-columns: repeat(2, 1fr); }
+.cd-root .cd-grid-ind--4 { grid-template-columns: repeat(4, 1fr); }
+.cd-root .cd-grid-ind--5 { grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.cd-root .cd-indcard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  min-height: 300px;
+  display: flex;
+  align-items: flex-end;
+  isolation: isolate;
+}
+.cd-root .cd-indcard__img {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform .7s cubic-bezier(.2,.7,.3,1);
+  z-index: -2;
+}
+/* Overlay reduced per client feedback: the carpet has to stay visible.
+   Density now sits only in the bottom third, behind the caption. */
+.cd-root .cd-indcard::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,8,9,0) 0%, rgba(8,8,9,.06) 38%, rgba(8,8,9,.55) 72%, rgba(8,8,9,.88) 100%);
+  z-index: -1;
+}
+.cd-root .cd-indcard:hover .cd-indcard__img { transform: scale(1.07); }
+.cd-root .cd-indcard__body { padding: 28px 26px; width: 100%; }
+.cd-root .cd-indcard__body h3 { color: #fff; text-shadow: 0 1px 12px rgba(8,8,9,.6); }
+.cd-root .cd-indcard__body p {
+  font-size: var(--cd-fs-body);
+  line-height: var(--cd-lh-body);
+  color: rgba(245,243,241,.86);
+  margin-top: 8px;
+  text-shadow: 0 1px 12px rgba(8,8,9,.7);
+}
+.cd-root .cd-indcard__more {
+  display: inline-block;
+  margin-top: 14px;
+  font-family: var(--cd-label);
+  font-size: 13.5px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--cd-gold-lt);
+}
+
+.cd-root .cd-chips {
+  margin-top: 34px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.cd-root .cd-chip {
+  border: 1px solid var(--cd-line-dk);
+  border-radius: 100px;
+  padding: 10px 20px;
+  font-size: var(--cd-fs-meta);
+  color: var(--cd-on-dark-mu);
+}
+.cd-root .cd-light .cd-chip,
+.cd-root .cd-cream .cd-chip { border-color: var(--cd-line-lt); color: var(--cd-on-light-mu); }
+
+/* Solid gold chip — the PAN India city list and the "Who do we serve" marquee
+   (client review 10 Oct). Same pill, filled rather than outlined. */
+.cd-root .cd-chip--gold,
+.cd-root .cd-light .cd-chip--gold,
+.cd-root .cd-cream .cd-chip--gold {
+  background: var(--cd-gold);
+  border-color: var(--cd-gold);
+  color: #14110A;
+  font-family: var(--cd-label);
+  font-weight: var(--cd-w-med);
+  letter-spacing: .04em;
+}
+/* the marquee version runs a size up */
+.cd-root .cd-marquee .cd-chip--gold {
+  font-size: 17px;
+  padding: 14px 28px;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   5. EXPLORE BY SPACE — tabs + image slider
+   ========================================================================== */
+
+.cd-root .cd-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 40px 0 30px;
+}
+.cd-root .cd-tab {
+  background: transparent;
+  border: 1px solid var(--cd-line-dk);
+  color: var(--cd-on-dark-mu);
+  font-family: var(--cd-label);
+  font-size: var(--cd-fs-label);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 13px 26px;
+  border-radius: 100px;
+  transition: all .22s ease;
+}
+.cd-root .cd-tab:hover { color: var(--cd-gold); border-color: var(--cd-gold); }
+.cd-root .cd-tab.is-active { background: var(--cd-gold); border-color: var(--cd-gold); color: #14110A; }
+
+.cd-root .cd-space {
+  display: grid;
+  grid-template-columns: 1.12fr 1fr;
+  background: var(--cd-panel);
+  border: 1px solid var(--cd-line-dk);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.cd-root .cd-space__media { position: relative; min-height: 420px; overflow: hidden; }
+.cd-root .cd-space__track {
+  position: absolute; inset: 0;
+  display: flex;
+  width: 300%;
+  transition: transform .55s cubic-bezier(.4,0,.2,1);
+}
+.cd-root .cd-space__frame {
+  width: 33.3333%;
+  flex: none;
+  background-size: cover;
+  background-position: center;
+}
+.cd-root .cd-space__body {
+  padding: 52px 46px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.cd-root .cd-space__body h3 {
+  font-family: var(--cd-serif);
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #fff;
+}
+.cd-root .cd-space__body p {
+  font-size: var(--cd-fs-lede);
+  line-height: var(--cd-lh-lede);
+  color: var(--cd-on-dark-mu);
+  margin-top: 16px;
+}
+.cd-root .cd-space__ctrl { display: flex; gap: 10px; margin-top: 30px; }
+
+/* ==========================================================================
+   6. COLLECTIONS — light cards on cream, horizontal rail
+   ========================================================================== */
+
+.cd-root .cd-railhead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.cd-root .cd-railhead .cd-head { margin: 0; }
+.cd-root .cd-rail {
+  margin-top: 38px;
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  /* proximity, not mandatory: the arrows tween scrollLeft themselves, and
+     mandatory snapping re-snaps mid-tween. Proximity keeps the snap feel on
+     a manual swipe without fighting the animation. */
+  scroll-snap-type: x proximity;
+  padding-bottom: 12px;
+  scrollbar-width: thin;
+}
+.cd-root .cd-rail::-webkit-scrollbar { height: 4px; }
+.cd-root .cd-rail::-webkit-scrollbar-thumb { background: var(--cd-gold); }
+
+.cd-root .cd-colcard {
+  flex: none;
+  width: 320px;
+  scroll-snap-align: start;
+  background: var(--cd-white);
+  border: 1px solid var(--cd-line-lt);
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow .25s ease, transform .25s ease;
+}
+.cd-root .cd-colcard:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(11,11,11,.13); }
+.cd-root .cd-colcard__img { height: 230px; background-size: cover; background-position: center; flex: none; }
+.cd-root .cd-colcard__body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+.cd-root .cd-colcard__body h3 { color: var(--cd-on-light); }
+.cd-root .cd-colcard__body p {
+  font-size: var(--cd-fs-body);
+  line-height: var(--cd-lh-body);
+  color: var(--cd-on-light-mu);
+  margin-top: 10px;
+  flex: 1;
+}
+/* Card CTAs now carry the hero button treatment (client review 10 Oct) —
+   they read as buttons rather than underlined text links. */
+.cd-root .cd-colcard__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  font-family: var(--cd-label);
+  font-size: 13.5px;
+  font-weight: var(--cd-w-med);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #14110A;
+  background: var(--cd-gold);
+  border: 1px solid var(--cd-gold);
+  border-radius: 3px;
+  padding: 13px 22px;
+  box-shadow: 0 5px 15px rgba(198, 165, 103, .24);
+  transition: background .22s ease, color .22s ease, border-color .22s ease,
+              transform .22s ease, box-shadow .22s ease;
+}
+.cd-root .cd-colcard__link:hover {
+  background: var(--cd-gold-dk);
+  border-color: var(--cd-gold-dk);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 9px 22px rgba(122, 95, 40, .34);
+}
+
+/* ==========================================================================
+   7. SPLIT (customization / residential)
+   ========================================================================== */
+
+.cd-root .cd-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.cd-root .cd-split__media {
+  border-radius: 3px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background-size: cover;
+  background-position: center;
+}
+.cd-root .cd-split--flip .cd-split__media { order: 2; }
+
+.cd-root .cd-ticks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 20px;
+  margin-top: 26px;
+}
+.cd-root .cd-tick {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: var(--cd-fs-body);
+  line-height: var(--cd-lh-body);
+  color: var(--cd-on-dark-mu);
+}
+.cd-root .cd-tick::before {
+  content: "";
+  width: 6px; height: 6px;
+  margin-top: 8px;
+  background: var(--cd-gold);
+  transform: rotate(45deg);
+  flex: none;
+}
+.cd-root .cd-light .cd-tick,
+.cd-root .cd-cream .cd-tick { color: var(--cd-on-light-mu); }
+
+/* ==========================================================================
+   8. STAT STRIP
+   ========================================================================== */
+
+/* The stats strip takes its background from whichever surface class the
+   section carries (cd-cream today), so it stays inside the alternation
+   instead of forcing its own colour. */
+.cd-root .cd-stats {
+  border-top: 1px solid var(--cd-line-lt);
+  border-bottom: 1px solid var(--cd-line-lt);
+  padding: 54px var(--cd-pad);
+}
+.cd-root .cd-dark.cd-stats,
+.cd-root .cd-dark-2.cd-stats {
+  border-top-color: var(--cd-line-dk);
+  border-bottom-color: var(--cd-line-dk);
+}
+.cd-root .cd-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  text-align: center;
+}
+.cd-root .cd-stat { padding: 6px 14px; border-left: 1px solid var(--cd-line-lt); }
+.cd-root .cd-stat:first-child { border-left: 0; }
+.cd-root .cd-stat__n {
+  font-family: var(--cd-serif);
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: var(--cd-w-bold);
+  color: var(--cd-gold-mid);  /* large numerals — 3:1 bar, keeps the warmth */
+  line-height: 1.1;
+}
+.cd-root .cd-stat__l {
+  font-family: var(--cd-label);
+  font-size: 14px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--cd-on-light-mu);
+  margin-top: 10px;
+}
+/* …and the same strip on a dark surface, if it's ever moved */
+.cd-root .cd-dark .cd-stat,
+.cd-root .cd-dark-2 .cd-stat { border-left-color: var(--cd-line-dk); }
+.cd-root .cd-dark .cd-stat__n,
+.cd-root .cd-dark-2 .cd-stat__n { color: var(--cd-gold); }
+.cd-root .cd-dark .cd-stat__l,
+.cd-root .cd-dark-2 .cd-stat__l { color: var(--cd-on-dark-mu); }
+
+/* ==========================================================================
+   9. WHY CHOOSE — white cards, black text
+   ========================================================================== */
+
+/* Editorial numbered list — deliberately NOT the card grid used elsewhere,
+   so this section reads as its own thing (client note: repetitive blocks). */
+.cd-root .cd-why {
+  margin-top: 52px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 64px;
+}
+.cd-root .cd-whyrow {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 22px;
+  align-items: start;
+  padding: 28px 0;
+  border-top: 1px solid var(--cd-line-lt);
+}
+/* first row in each column loses its rule so the two columns start level */
+.cd-root .cd-whyrow:first-child,
+.cd-root .cd-whyrow:nth-child(2) { border-top: 0; padding-top: 0; }
+.cd-root .cd-whyrow__n {
+  font-family: var(--cd-serif);
+  font-size: 40px;
+  font-weight: var(--cd-w-bold);
+  line-height: .9;
+  color: var(--cd-gold-dk);
+  opacity: .55;
+}
+.cd-root .cd-whyrow h3 {
+  font-family: var(--cd-serif);
+  font-size: 26px;
+  font-weight: var(--cd-w-bold);
+  line-height: 1.2;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--cd-on-light);
+}
+.cd-root .cd-whyrow p {
+  font-size: var(--cd-fs-body);
+  line-height: var(--cd-lh-body);
+  color: var(--cd-on-light-mu);
+  margin-top: 10px;
+}
+/* dark-surface version (where this list actually sits) */
+.cd-root .cd-dark .cd-whyrow,
+.cd-root .cd-dark-2 .cd-whyrow { border-top-color: var(--cd-line-dk); }
+.cd-root .cd-dark .cd-whyrow__n,
+.cd-root .cd-dark-2 .cd-whyrow__n { color: var(--cd-gold); opacity: .75; }
+.cd-root .cd-dark .cd-whyrow h3,
+.cd-root .cd-dark-2 .cd-whyrow h3 { color: #fff; }
+.cd-root .cd-dark .cd-whyrow p,
+.cd-root .cd-dark-2 .cd-whyrow p { color: var(--cd-on-dark-mu); }
+
+/* ==========================================================================
+   10. PROCESS — white section, numbered steps + service cards
+   ========================================================================== */
+
+.cd-root .cd-proc {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+.cd-root .cd-step { text-align: center; position: relative; padding: 0 6px; }
+.cd-root .cd-step::after {
+  content: "";
+  position: absolute;
+  top: 37px;
+  left: calc(50% + 46px);
+  right: calc(-50% + 46px);
+  height: 1px;
+  background: var(--cd-line-lt);
+}
+.cd-root .cd-step:last-child::after { display: none; }
+.cd-root .cd-step__ring {
+  width: 74px; height: 74px;
+  margin: 0 auto;
+  border: 1px solid var(--cd-gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--cd-serif);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--cd-gold-dk);
+  background: var(--cd-white);
+  position: relative;
+  z-index: 1;
+  transition: background .25s ease, color .25s ease;
+}
+.cd-root .cd-step:hover .cd-step__ring { background: var(--cd-gold); color: #14110A; }
+.cd-root .cd-step h3 { margin-top: 18px; font-size: 18px; color: var(--cd-on-light); }
+.cd-root .cd-step p {
+  font-size: var(--cd-fs-meta);
+  line-height: var(--cd-lh-body);
+  color: var(--cd-on-light-mu);
+  margin-top: 8px;
+}
+
+/* Hairline-topped columns — no fill, no box, so this reads differently
+   again from the numbered process strip directly above it. */
+.cd-root .cd-svcs {
+  margin-top: 54px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 44px;
+  row-gap: 36px;
+}
+.cd-root .cd-svc {
+  padding-top: 22px;
+  border-top: 2px solid var(--cd-gold);
+  background: none;
+}
+.cd-root .cd-svc h4 {
+  font-family: var(--cd-label);
+  font-size: 19px;
+  font-weight: var(--cd-w-med);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--cd-on-light);
+}
+.cd-root .cd-svc p {
+  font-size: var(--cd-fs-body);
+  line-height: var(--cd-lh-body);
+  color: var(--cd-on-light-mu);
+  margin-top: 10px;
+}
+
+/* ==========================================================================
+   11. MATERIALS — dark tiles
+   ========================================================================== */
+
+/* Spec-sheet rows — a third distinct treatment, so Materials doesn't read
+   as another copy of the Why Choose / Services blocks. */
+.cd-root .cd-mats { margin-top: 50px; border-top: 1px solid var(--cd-line-dk); }
+.cd-root .cd-mat {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 40px;
+  align-items: baseline;
+  padding: 26px 8px;
+  border-bottom: 1px solid var(--cd-line-dk);
+  transition: background .25s ease, padding-left .25s ease;
+}
+.cd-root .cd-mat:hover { background: rgba(198,165,103,.05); padding-left: 18px; }
+.cd-root .cd-mat h4 {
+  font-family: var(--cd-label);
+  font-size: 19px;
+  font-weight: var(--cd-w-med);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--cd-gold);
+}
+.cd-root .cd-mat p {
+  font-size: var(--cd-fs-body);
+  line-height: var(--cd-lh-body);
+  color: var(--cd-on-dark-mu);
+}
+
+/* ==========================================================================
+   12. TESTIMONIALS
+   ========================================================================== */
+
+.cd-root .cd-quotes {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+/* Light cards on the dark section (client review 10 Oct) — they were dark on
+   dark and barely read as cards at all. */
+.cd-root .cd-quote {
+  background: var(--cd-cream);
+  border: 1px solid rgba(122, 95, 40, .34);
+  border-radius: 6px;
+  padding: 32px 30px;
+}
+.cd-root .cd-quote__mark {
+  font-family: var(--cd-serif);
+  font-size: 54px;
+  line-height: .7;
+  color: var(--cd-gold-dk);
+  display: block;
+}
+.cd-root .cd-quote p {
+  font-family: var(--cd-serif);
+  font-size: 21px;
+  line-height: 1.65;
+  color: var(--cd-on-light);
+  margin-top: 16px;
+}
+.cd-root .cd-quote__by {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--cd-line-lt);
+  font-family: var(--cd-label);
+  font-size: 14px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--cd-on-light-mu);
+}
+
+/* ==========================================================================
+   13. FAQ — white accordion
+   ========================================================================== */
+
+.cd-root .cd-faq { max-width: 940px; margin: 46px auto 0; display: grid; gap: 18px; }
+
+/* Boxed questions, restyled to the reference the client sent (6 Oct):
+   generous rounded cards, a gold rule, a bold question and a large plain +.
+   The card is TRANSPARENT so it takes whichever surface the section already
+   has — the page keeps its alternating dark/light rhythm untouched, and the
+   question text flips with it. Border stays gold on both. */
+.cd-root .cd-faq__item {
+  border: 2px solid var(--cd-gold-dk);
+  border-radius: 14px;
+  background: transparent;
+  overflow: hidden;
+  transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.cd-root .cd-faq__item:hover { box-shadow: 0 8px 24px rgba(122, 95, 40, .16); }
+.cd-root .cd-faq__item.is-open {
+  background: rgba(198, 165, 103, .07);
+  box-shadow: 0 10px 30px rgba(122, 95, 40, .18);
+}
+
+.cd-root .cd-faq__q {
+  width: 100%;
+  background: none;
+  border: 0;
+  text-align: left;
+  padding: 26px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  font-family: var(--cd-sans);
+  font-size: 19.5px;
+  font-weight: var(--cd-w-bold);
+  line-height: 1.45;
+  color: var(--cd-on-light);
+  transition: color .2s ease;
+}
+.cd-root .cd-faq__q:hover { color: var(--cd-gold-dk); }
+
+/* A large plain glyph, not a circled one — matches the reference. */
+.cd-root .cd-faq__ico {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--cd-sans);
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--cd-gold-dk);
+  transition: color .2s ease, transform .25s ease;
+}
+.cd-root .cd-faq__item.is-open .cd-faq__ico { transform: rotate(180deg); }
+
+.cd-root .cd-faq__a {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .35s ease;
+}
+.cd-root .cd-faq__a p {
+  font-size: var(--cd-fs-body);
+  line-height: var(--cd-lh-lede);
+  color: var(--cd-on-light-mu);
+  padding: 0 64px 28px 30px;
+}
+
+/* --- DARK surface: gold border stays, text goes white --- */
+.cd-root .cd-dark .cd-faq__item,
+.cd-root .cd-dark-2 .cd-faq__item,
+.cd-root .cd-cta .cd-faq__item { border-color: var(--cd-gold); }
+.cd-root .cd-dark .cd-faq__item:hover,
+.cd-root .cd-dark-2 .cd-faq__item:hover { box-shadow: 0 8px 24px rgba(0, 0, 0, .35); }
+.cd-root .cd-dark .cd-faq__item.is-open,
+.cd-root .cd-dark-2 .cd-faq__item.is-open {
+  background: rgba(198, 165, 103, .10);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .42);
+}
+.cd-root .cd-dark .cd-faq__q,
+.cd-root .cd-dark-2 .cd-faq__q { color: #fff; }
+.cd-root .cd-dark .cd-faq__q:hover,
+.cd-root .cd-dark-2 .cd-faq__q:hover { color: var(--cd-gold); }
+.cd-root .cd-dark .cd-faq__ico,
+.cd-root .cd-dark-2 .cd-faq__ico { color: var(--cd-gold); }
+.cd-root .cd-dark .cd-faq__a p,
+.cd-root .cd-dark-2 .cd-faq__a p { color: var(--cd-on-dark-mu); }
+
+@media (max-width: 640px) {
+  .cd-root .cd-faq__q { padding: 20px 20px; font-size: 17.5px; gap: 16px; }
+  .cd-root .cd-faq__ico { width: 28px; height: 28px; font-size: 28px; }
+  .cd-root .cd-faq__a p { padding: 0 24px 22px 20px; }
+}
+
+/* ==========================================================================
+   14. FORMS
+   ========================================================================== */
+
+.cd-root .cd-form { display: flex; flex-direction: column; gap: 13px; }
+.cd-root .cd-form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+
+.cd-root .cd-field {
+  width: 100%;
+  font-family: var(--cd-sans);
+  font-size: var(--cd-fs-body);
+  padding: 15px 16px;
+  border-radius: 2px;
+  transition: border-color .2s ease;
+  color: inherit;
+}
+.cd-root .cd-dark .cd-field,
+.cd-root .cd-dark-2 .cd-field {
+  background: var(--cd-black);
+  border: 1px solid var(--cd-line-dk);
+  color: var(--cd-on-dark);
+}
+.cd-root .cd-light .cd-field,
+.cd-root .cd-cream .cd-field {
+  background: var(--cd-white);
+  border: 1px solid var(--cd-line-lt);
+  color: var(--cd-on-light);
+}
+.cd-root .cd-field:focus { outline: none; border-color: var(--cd-gold); }
+.cd-root .cd-field::placeholder { color: var(--cd-on-dark-fa); }
+.cd-root .cd-light .cd-field::placeholder,
+.cd-root .cd-cream .cd-field::placeholder { color: #9A958C; }
+.cd-root textarea.cd-field { resize: vertical; min-height: 104px; }
+
+.cd-root .cd-form__ok {
+  padding: 34px 0;
+  text-align: center;
+  font-family: var(--cd-label);
+  font-size: 14px;
+  letter-spacing: .06em;
+  color: var(--cd-gold);
+}
+.cd-root .cd-light .cd-form__ok,
+.cd-root .cd-cream .cd-form__ok { color: var(--cd-gold-dk); }
+
+.cd-root .cd-formcard {
+  background: var(--cd-ink);
+  border: 1px solid var(--cd-line-dk);
+  border-radius: 4px;
+  padding: 36px;
+}
+/* The form card is always dark, even when its section is light, so its
+   fields are pinned here rather than inherited from the section surface. */
+.cd-root .cd-formcard .cd-field {
+  background: var(--cd-black);
+  border: 1px solid var(--cd-line-dk);
+  color: var(--cd-on-dark);
+}
+.cd-root .cd-formcard .cd-field::placeholder { color: var(--cd-on-dark-fa); }
+.cd-root .cd-formcard .cd-field:focus { border-color: var(--cd-gold); }
+.cd-root .cd-formcard .cd-form__ok { color: var(--cd-gold); }
+.cd-root .cd-formcard h3 {
+  font-family: var(--cd-serif);
+  font-size: 30px;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #fff;
+}
+.cd-root .cd-formcard > p {
+  font-size: var(--cd-fs-meta);
+  color: var(--cd-on-dark-fa);
+  margin: 6px 0 22px;
+}
+
+/* ==========================================================================
+   15. FINAL CTA
+   ========================================================================== */
+
+.cd-root .cd-cta {
+  background:
+    linear-gradient(115deg, rgba(198,165,103,.13), rgba(11,11,11,0) 55%),
+    var(--cd-ink);
+  border-top: 1px solid var(--cd-line-dk);
+  border-bottom: 1px solid var(--cd-line-dk);
+  padding: 78px var(--cd-pad);
+  text-align: center;
+}
+.cd-root .cd-cta .cd-h2 { color: #fff; }
+.cd-root .cd-cta .cd-lede { margin-left: auto; margin-right: auto; max-width: 660px; }
+.cd-root .cd-cta__btns {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+/* ==========================================================================
+   16. CONTACT — white section
+   ========================================================================== */
+
+.cd-root .cd-contact {
+  display: grid;
+  grid-template-columns: .9fr 1.15fr 1fr;
+  gap: 44px;
+  margin-top: 46px;
+}
+/* The three contact columns sit in black cards on the light section
+   (client review 10 Oct). Everything inside flips to the dark palette. */
+.cd-root .cd-contactcard {
+  background: var(--cd-black);
+  border: 1px solid rgba(198, 165, 103, .30);
+  border-radius: 6px;
+  padding: 34px 30px;
+}
+.cd-root .cd-contactcard .cd-colhead {
+  color: var(--cd-gold);
+  border-bottom-color: var(--cd-line-dk);
+}
+.cd-root .cd-contactcard .cd-info__item { color: var(--cd-on-dark-mu); }
+.cd-root .cd-contactcard .cd-info__item strong { color: #fff; }
+.cd-root .cd-contactcard .cd-info__item a:hover { color: var(--cd-gold); }
+.cd-root .cd-contactcard .cd-field {
+  background: var(--cd-ink);
+  border: 1px solid var(--cd-line-dk);
+  color: var(--cd-on-dark);
+}
+.cd-root .cd-contactcard .cd-field::placeholder { color: var(--cd-on-dark-fa); }
+.cd-root .cd-contactcard .cd-field:focus { border-color: var(--cd-gold); }
+.cd-root .cd-contactcard .cd-form__ok { color: var(--cd-gold); }
+.cd-root .cd-contactcard .cd-map { border-color: var(--cd-line-dk); }
+
+.cd-root .cd-colhead {
+  font-family: var(--cd-label);
+  font-size: var(--cd-fs-label);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--cd-gold-dk);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--cd-line-lt);
+  margin-bottom: 22px;
+}
+.cd-root .cd-info { display: flex; flex-direction: column; gap: 18px; }
+.cd-root .cd-info__item { font-size: var(--cd-fs-body); line-height: var(--cd-lh-body); color: var(--cd-on-light-mu); }
+.cd-root .cd-info__item strong {
+  display: block;
+  font-family: var(--cd-label);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--cd-on-light);
+  margin-bottom: 5px;
+}
+.cd-root .cd-info__item a:hover { color: var(--cd-gold-dk); }
+.cd-root .cd-info__btns { display: flex; flex-direction: column; gap: 10px; margin-top: 26px; }
+.cd-root .cd-info__btns .cd-btn { justify-content: center; }
+
+.cd-root .cd-map {
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid var(--cd-line-lt);
+  aspect-ratio: 1 / 1;
+}
+.cd-root .cd-map iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* ==========================================================================
+   REVEAL ON SCROLL
+   ========================================================================== */
+
+.cd-root .cd-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1);
+}
+.cd-root .cd-reveal.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cd-root .cd-reveal { opacity: 1; transform: none; transition: none; }
+  .cd-root .cd-hero__slide { transition: opacity .01s; transform: none; }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+  .cd-root { --cd-sec: 72px; }
+  .cd-root .cd-grid-ind,
+  .cd-root .cd-grid-ind--2,
+  .cd-root .cd-grid-ind--4,
+  .cd-root .cd-grid-ind--5 { grid-template-columns: repeat(2, 1fr); }
+  .cd-root .cd-svcs       { grid-template-columns: repeat(2, 1fr); column-gap: 32px; }
+  .cd-root .cd-why        { column-gap: 44px; }
+  .cd-root .cd-mat        { grid-template-columns: 240px 1fr; gap: 28px; }
+  .cd-root .cd-quotes     { grid-template-columns: 1fr; }
+  .cd-root .cd-stats__grid{ grid-template-columns: repeat(3, 1fr); gap: 26px 10px; }
+  .cd-root .cd-stat:nth-child(4) { border-left: 0; }
+  .cd-root .cd-contact    { grid-template-columns: 1fr 1fr; }
+  .cd-root .cd-contact > div:last-child { grid-column: 1 / -1; }
+  .cd-root .cd-map        { aspect-ratio: 16 / 7; }
+  .cd-root .cd-proc       { grid-template-columns: repeat(3, 1fr); row-gap: 40px; }
+  .cd-root .cd-step::after{ display: none; }
+}
+
+@media (max-width: 900px) {
+  .cd-root .cd-nav    { display: none; }
+  .cd-root .cd-burger { display: flex; }
+  .cd-root .cd-header__cta { display: none; }
+
+  .cd-root .cd-hero { min-height: auto; }
+  .cd-root .cd-hero__in { padding: 120px var(--cd-pad) 110px; }
+  .cd-root .cd-hero__nav { display: none; }
+
+  .cd-root .cd-space { grid-template-columns: 1fr; }
+  .cd-root .cd-space__media { min-height: 280px; }
+  .cd-root .cd-space__body { padding: 34px 28px; }
+
+  .cd-root .cd-split { grid-template-columns: 1fr; gap: 34px; }
+  .cd-root .cd-split--flip .cd-split__media { order: 0; }
+}
+
+@media (max-width: 640px) {
+  .cd-root { --cd-pad: 20px; --cd-sec: 58px; }
+  .cd-root .cd-grid-ind,
+  .cd-root .cd-grid-ind--2,
+  .cd-root .cd-grid-ind--4,
+  .cd-root .cd-grid-ind--5 { grid-template-columns: 1fr; }
+  .cd-root .cd-svcs       { grid-template-columns: 1fr; }
+  .cd-root .cd-why        { grid-template-columns: 1fr; }
+  .cd-root .cd-whyrow:nth-child(2) { border-top: 1px solid var(--cd-line-dk); padding-top: 28px; }
+  .cd-root .cd-mat        { grid-template-columns: 1fr; gap: 8px; }
+  .cd-root .cd-mat:hover  { padding-left: 8px; }
+  .cd-root .cd-proc       { grid-template-columns: 1fr; row-gap: 30px; }
+  .cd-root .cd-stats__grid{ grid-template-columns: repeat(2, 1fr); }
+  .cd-root .cd-stat       { border-left: 0; }
+  .cd-root .cd-contact    { grid-template-columns: 1fr; }
+  .cd-root .cd-form__row  { grid-template-columns: 1fr; }
+  .cd-root .cd-ticks      { grid-template-columns: 1fr; }
+  .cd-root .cd-colcard    { width: 270px; }
+  .cd-root .cd-formcard   { padding: 26px 22px; }
+  .cd-root .cd-hero__cta .cd-btn { flex: 1 1 100%; justify-content: center; }
+  .cd-root .cd-trusted__row { gap: 22px 30px; }
+  .cd-root .cd-trusted__tile { width: 96px; height: 96px; }
+}
+
+/* ==========================================================================
+   INNER-PAGE COMPONENTS
+   Used by the Laminated Wooden Flooring and About Us pages. Everything here
+   follows the same tokens, type scale and light/dark surface rules as the
+   homepage, so the three pages stay visually identical in treatment.
+   ========================================================================== */
+
+/* Hero variant that carries a spec strip. The base .cd-hero is a row flex
+   (copy pinned to the bottom); with a strip the two children must stack, so
+   this switches to a column and lets the copy take the slack above. */
+.cd-root .cd-hero--spec { flex-direction: column; justify-content: flex-end; align-items: stretch; }
+.cd-root .cd-hero--spec .cd-hero__in { margin-top: auto; }
+
+/* ==========================================================================
+   MARQUEE — smooth auto-scrolling strip (client review 30 Sep)
+   Used for the client logo wall and the About page's "Who do we serve" chips.
+   The track holds the items twice; translating it exactly -50% and looping
+   makes the join invisible. Pauses on hover and honours reduced-motion.
+   ========================================================================== */
+.cd-root .cd-marquee {
+  overflow: hidden;
+  width: 100%;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.cd-root .cd-marquee__track {
+  display: flex;
+  width: max-content;
+  gap: 16px;
+  animation: cd-marquee var(--cd-marquee-speed, 42s) linear infinite;
+}
+.cd-root .cd-marquee:hover .cd-marquee__track { animation-play-state: paused; }
+@keyframes cd-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cd-root .cd-marquee__track { animation: none; }
+  .cd-root .cd-marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+}
+
+/* The logo wall sits straight on the light band — no panel, no tile.
+   Deepak's originals are clean transparent cut-outs, so the black panel the
+   old black-background files needed is gone. */
+.cd-root .cd-logowall { margin-top: 26px; }
+.cd-root .cd-logowall .cd-trusted__tile {
+  background: transparent;
+  border: 0;
+  flex: none;
+  margin: 0;
+  width: 190px;
+  height: 92px;
+  padding: 0 18px;
+}
+.cd-root .cd-logowall .cd-trusted__tile img {
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: .85;
+  transition: opacity .25s ease;
+}
+.cd-root .cd-logowall .cd-trusted__tile:hover img { opacity: 1; }
+/* Three of the supplied files are white-only cut-outs, which would vanish on
+   the light band. brightness(0) renders them as a solid dark silhouette and
+   leaves the alpha channel intact, so the mark keeps its exact shape. */
+.cd-root .cd-logo--white { filter: brightness(0); opacity: .72; }
+.cd-root .cd-logowall .cd-trusted__tile:hover .cd-logo--white { opacity: .9; }
+
+/* --- hero spec strip: the AC4 / 8.3 MM / HDF / UNILIN bar under the hero --- */
+.cd-root .cd-specstrip {
+  position: relative;
+  z-index: 3;
+  border-top: 1px solid var(--cd-line-dk);
+  background: rgba(11, 11, 11, .72);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.cd-root .cd-specstrip__in {
+  max-width: var(--cd-max);
+  margin: 0 auto;
+  padding: 22px var(--cd-pad);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.cd-root .cd-specitem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-left: 22px;
+  border-left: 1px solid var(--cd-line-dk);
+}
+.cd-root .cd-specitem:first-child { border-left: 0; padding-left: 0; }
+.cd-root .cd-specitem svg { width: 26px; height: 26px; flex: none; stroke: var(--cd-gold); fill: none; stroke-width: 1.4; }
+.cd-root .cd-specitem b {
+  display: block;
+  font-family: var(--cd-label);
+  font-size: 17px;
+  font-weight: var(--cd-w-med);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.cd-root .cd-specitem span {
+  display: block;
+  font-size: var(--cd-fs-meta);
+  color: var(--cd-on-dark-mu);
+  margin-top: 2px;
+}
+
+/* --- feature cards with an icon (performance, benefits, commitments) --- */
+.cd-root .cd-feats {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.cd-root .cd-feats--3 { grid-template-columns: repeat(3, 1fr); }
+.cd-root .cd-feats--2 { grid-template-columns: repeat(2, 1fr); gap: 28px 44px; }
+
+/* inline text link inside a paragraph */
+.cd-root .cd-inline { color: var(--cd-gold); text-decoration: underline; text-underline-offset: 3px; }
+.cd-root .cd-inline:hover { color: #fff; }
+.cd-root .cd-light .cd-inline,
+.cd-root .cd-cream .cd-inline { color: var(--cd-gold-dk); }
+.cd-root .cd-light .cd-inline:hover,
+.cd-root .cd-cream .cd-inline:hover { color: var(--cd-on-light); }
+.cd-root .cd-feat__ico {
+  width: 54px; height: 54px;
+  border-radius: 50%;
+  border: 1px solid var(--cd-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+.cd-root .cd-feat__ico svg { width: 24px; height: 24px; stroke: var(--cd-gold); fill: none; stroke-width: 1.4; }
+.cd-root .cd-light .cd-feat__ico,
+.cd-root .cd-cream .cd-feat__ico { border-color: var(--cd-gold-dk); }
+.cd-root .cd-light .cd-feat__ico svg,
+.cd-root .cd-cream .cd-feat__ico svg { stroke: var(--cd-gold-dk); }
+.cd-root .cd-feat h3 {
+  font-family: var(--cd-label);
+  font-size: 18px;
+  font-weight: var(--cd-w-med);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.cd-root .cd-light .cd-feat h3,
+.cd-root .cd-cream .cd-feat h3 { color: var(--cd-on-light); }
+.cd-root .cd-feat p {
+  font-size: var(--cd-fs-body);
+  line-height: var(--cd-lh-body);
+  color: var(--cd-on-dark-mu);
+  margin-top: 10px;
+}
+.cd-root .cd-light .cd-feat p,
+.cd-root .cd-cream .cd-feat p { color: var(--cd-on-light-mu); }
+
+/* --- technical specification table --- */
+/* Two even columns under a centred heading, each with its own sub-head so
+   the left and right sides start on the same line. */
+.cd-root .cd-spec {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+.cd-root .cd-spec__col { min-width: 0; }
+.cd-root .cd-spec__h {
+  font-family: var(--cd-label);
+  font-size: var(--cd-fs-label);
+  font-weight: var(--cd-w-med);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--cd-gold-dk);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--cd-line-lt);
+  margin-bottom: 22px;
+}
+.cd-root .cd-dark .cd-spec__h,
+.cd-root .cd-dark-2 .cd-spec__h {
+  color: var(--cd-gold);
+  border-bottom-color: var(--cd-line-dk);
+}
+/* inside a half-width column the build-up stacks rather than sitting side by side */
+.cd-root .cd-spec__col .cd-build { margin-top: 0; grid-template-columns: 1fr; }
+.cd-root .cd-spec__col .cd-build__zoom { min-height: 230px; }
+.cd-root .cd-spectable { width: 100%; border-collapse: collapse; }
+.cd-root .cd-spectable tr { border-bottom: 1px solid var(--cd-line-lt); }
+.cd-root .cd-dark .cd-spectable tr,
+.cd-root .cd-dark-2 .cd-spectable tr { border-bottom-color: var(--cd-line-dk); }
+.cd-root .cd-spectable th {
+  text-align: left;
+  padding: 18px 20px 18px 0;
+  width: 44%;
+  font-family: var(--cd-label);
+  font-size: var(--cd-fs-body);
+  font-weight: var(--cd-w-med);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--cd-gold-dk);
+}
+.cd-root .cd-dark .cd-spectable th,
+.cd-root .cd-dark-2 .cd-spectable th { color: var(--cd-gold); }
+.cd-root .cd-spectable td {
+  padding: 16px 0;
+  font-size: var(--cd-fs-body);
+  line-height: var(--cd-lh-body);
+  color: var(--cd-on-light-mu);
+}
+.cd-root .cd-dark .cd-spectable td,
+.cd-root .cd-dark-2 .cd-spectable td { color: var(--cd-on-dark-mu); }
+.cd-root .cd-spec__media {
+  border-radius: 3px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background-size: cover;
+  background-position: center;
+}
+
+/* --- plank build-up: zoomed surface crop + numbered layer stack ---
+   Added after the review asked for thickness/layer icons and a zoomed
+   overlay shot of the floor detail. */
+.cd-root .cd-build {
+  margin-top: 34px;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 26px;
+  align-items: stretch;
+}
+.cd-root .cd-build__zoom {
+  position: relative;
+  min-height: 210px;
+  border-radius: 4px;
+  border: 1px solid rgba(122, 95, 40, .34);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+.cd-root .cd-build__badge {
+  position: absolute;
+  left: 12px; bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(11, 11, 11, .78);
+  color: var(--cd-gold-lt);
+  font-family: var(--cd-label);
+  font-size: 13px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 7px 12px;
+  border-radius: 100px;
+}
+.cd-root .cd-build__badge svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+.cd-root .cd-build__layers { display: grid; gap: 10px; align-content: start; }
+.cd-root .cd-build__layers li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 11px 14px;
+  border: 1px solid var(--cd-line-lt);
+  border-left: 2px solid var(--cd-gold-dk);
+  border-radius: 3px;
+  background: var(--cd-cream);
+}
+.cd-root .cd-dark .cd-build__layers li,
+.cd-root .cd-dark-2 .cd-build__layers li {
+  border-color: var(--cd-line-dk);
+  border-left-color: var(--cd-gold);
+  background: var(--cd-ink);
+}
+.cd-root .cd-build__n {
+  flex: none;
+  width: 23px; height: 23px;
+  border-radius: 50%;
+  background: var(--cd-gold-dk);
+  color: #fff;
+  font-family: var(--cd-label);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cd-root .cd-build__layers b {
+  display: block;
+  font-family: var(--cd-label);
+  font-size: 15.5px;
+  font-weight: var(--cd-w-med);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--cd-on-light);
+}
+.cd-root .cd-dark .cd-build__layers b,
+.cd-root .cd-dark-2 .cd-build__layers b { color: #fff; }
+.cd-root .cd-build__layers span:not(.cd-build__n) {
+  display: block;
+  font-size: var(--cd-fs-meta);
+  line-height: 1.55;
+  color: var(--cd-on-light-mu);
+  margin-top: 3px;
+}
+.cd-root .cd-dark .cd-build__layers span:not(.cd-build__n),
+.cd-root .cd-dark-2 .cd-build__layers span:not(.cd-build__n) { color: var(--cd-on-dark-mu); }
+@media (max-width: 760px) {
+  .cd-root .cd-build { grid-template-columns: 1fr; }
+}
+
+/* --- EVOKE shade cards --- */
+.cd-root .cd-shadegroup { margin-top: 48px; }
+.cd-root .cd-shadegroup__h {
+  font-family: var(--cd-label);
+  font-size: var(--cd-fs-label);
+  font-weight: var(--cd-w-med);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--cd-gold);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--cd-line-dk);
+  margin-bottom: 26px;
+}
+.cd-root .cd-light .cd-shadegroup__h,
+.cd-root .cd-cream .cd-shadegroup__h {
+  color: var(--cd-gold-dk);
+  border-bottom-color: var(--cd-line-lt);
+}
+.cd-root .cd-shades {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.cd-root .cd-shade {
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--cd-ink);
+  border: 1px solid rgba(198, 165, 103, .42);
+  transition: transform .25s ease, border-color .25s ease;
+}
+.cd-root .cd-light .cd-shade,
+.cd-root .cd-cream .cd-shade { background: var(--cd-white); border-color: rgba(122, 95, 40, .34); }
+.cd-root .cd-shade:hover { transform: translateY(-4px); border-color: var(--cd-gold); }
+.cd-root .cd-shade__img { height: 210px; background-size: cover; background-position: center; }
+.cd-root .cd-shade__body {
+  padding: 20px 22px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.cd-root .cd-shade__body h4 {
+  font-family: var(--cd-label);
+  font-size: 19px;
+  font-weight: var(--cd-w-med);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.cd-root .cd-light .cd-shade__body h4,
+.cd-root .cd-cream .cd-shade__body h4 { color: var(--cd-on-light); }
+.cd-root .cd-shade__code {
+  font-family: var(--cd-serif);
+  font-size: 20px;
+  font-weight: var(--cd-w-bold);
+  color: var(--cd-gold);
+  flex: none;
+}
+.cd-root .cd-light .cd-shade__code,
+.cd-root .cd-cream .cd-shade__code { color: var(--cd-gold-dk); }
+.cd-root .cd-shade__note {
+  padding: 0 22px 20px;
+  font-size: var(--cd-fs-meta);
+  line-height: var(--cd-lh-body);
+  color: var(--cd-on-dark-mu);
+}
+.cd-root .cd-light .cd-shade__note,
+.cd-root .cd-cream .cd-shade__note { color: var(--cd-on-light-mu); }
+
+/* Light-surface variant of the spec-sheet rows. The homepage only ever
+   used .cd-mats on a dark section, so these colours were never defined —
+   on cream the body copy came out at 1.01:1, i.e. invisible. */
+.cd-root .cd-light .cd-mats,
+.cd-root .cd-cream .cd-mats { border-top-color: var(--cd-line-lt); }
+.cd-root .cd-light .cd-mat,
+.cd-root .cd-cream .cd-mat { border-bottom-color: var(--cd-line-lt); }
+.cd-root .cd-light .cd-mat:hover,
+.cd-root .cd-cream .cd-mat:hover { background: rgba(198, 165, 103, .10); }
+.cd-root .cd-light .cd-mat h4,
+.cd-root .cd-cream .cd-mat h4 { color: var(--cd-gold-dk); }
+.cd-root .cd-light .cd-mat p,
+.cd-root .cd-cream .cd-mat p { color: var(--cd-on-light-mu); }
+
+/* --- use-case card: photo on top, copy on a solid body ---
+   The homepage .cd-indcard lays its caption over the photo, which works for a
+   two-line caption but not for a bulleted list — the text sat on bright wood
+   and became unreadable. These cards keep the list on a solid surface. */
+.cd-root .cd-usecards {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.cd-root .cd-usecards--3 { grid-template-columns: repeat(3, 1fr); }
+.cd-root .cd-usecard {
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--cd-ink);
+  border: 1px solid rgba(198, 165, 103, .42);
+  display: flex;
+  flex-direction: column;
+  transition: transform .25s ease, border-color .25s ease;
+}
+.cd-root .cd-light .cd-usecard,
+.cd-root .cd-cream .cd-usecard { background: var(--cd-white); border-color: rgba(122, 95, 40, .34); }
+.cd-root .cd-usecard:hover { transform: translateY(-4px); border-color: var(--cd-gold); }
+.cd-root .cd-usecard__img { height: 220px; background-size: cover; background-position: center; flex: none; }
+.cd-root .cd-usecard__body { padding: 26px 26px 28px; }
+.cd-root .cd-usecard__body h3 {
+  font-family: var(--cd-label);
+  font-size: 19px;
+  font-weight: var(--cd-w-med);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.cd-root .cd-light .cd-usecard__body h3,
+.cd-root .cd-cream .cd-usecard__body h3 { color: var(--cd-on-light); }
+.cd-root .cd-usecard__body .cd-list { margin-top: 14px; gap: 10px; }
+.cd-root .cd-usecard__body p {
+  font-size: var(--cd-fs-body); line-height: var(--cd-lh-body);
+  color: var(--cd-on-dark-mu); margin-top: 12px;
+}
+.cd-root .cd-light .cd-usecard__body p,
+.cd-root .cd-cream .cd-usecard__body p { color: var(--cd-on-light-mu); }
+
+/* --- plain bullet list used for benefits / care / serves --- */
+.cd-root .cd-list { display: grid; gap: 14px; margin-top: 26px; }
+.cd-root .cd-list--2 { grid-template-columns: repeat(2, 1fr); gap: 14px 44px; }
+.cd-root .cd-list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: var(--cd-fs-body);
+  line-height: var(--cd-lh-body);
+  color: var(--cd-on-dark-mu);
+}
+.cd-root .cd-light .cd-list li,
+.cd-root .cd-cream .cd-list li { color: var(--cd-on-light-mu); }
+.cd-root .cd-list li::before {
+  content: "";
+  width: 7px; height: 7px;
+  margin-top: 9px;
+  background: var(--cd-gold);
+  transform: rotate(45deg);
+  flex: none;
+}
+.cd-root .cd-light .cd-list li::before,
+.cd-root .cd-cream .cd-list li::before { background: var(--cd-gold-dk); }
+.cd-root .cd-list li strong {
+  color: #fff;
+  font-weight: var(--cd-w-bold);
+}
+.cd-root .cd-light .cd-list li strong,
+.cd-root .cd-cream .cd-list li strong { color: var(--cd-on-light); }
+
+/* --- two-column panel (install / care, consultation details) --- */
+.cd-root .cd-panels {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+.cd-root .cd-panels--3 { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.cd-root .cd-panel {
+  min-width: 0;
+  border: 1px solid var(--cd-line-dk);
+  border-top: 2px solid var(--cd-gold);
+  border-radius: 3px;
+  padding: 32px 30px;
+  background: var(--cd-ink);
+}
+.cd-root .cd-light .cd-panel,
+.cd-root .cd-cream .cd-panel {
+  background: var(--cd-white);
+  border-color: var(--cd-line-lt);
+  border-top-color: var(--cd-gold-dk);
+}
+.cd-root .cd-panel h3 {
+  font-family: var(--cd-serif);
+  font-size: 26px;
+  font-weight: var(--cd-w-bold);
+  line-height: 1.2;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #fff;
+}
+.cd-root .cd-light .cd-panel h3,
+.cd-root .cd-cream .cd-panel h3 { color: var(--cd-on-light); }
+.cd-root .cd-panel .cd-list { margin-top: 18px; }
+.cd-root .cd-panel p {
+  font-size: var(--cd-fs-body); line-height: var(--cd-lh-body);
+  color: var(--cd-on-dark-mu); margin-top: 14px;
+}
+.cd-root .cd-light .cd-panel p,
+.cd-root .cd-cream .cd-panel p { color: var(--cd-on-light-mu); }
+
+/* --- logo meaning row (About) --- */
+.cd-root .cd-logostory {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 56px;
+  align-items: center;
+}
+/* No white panel behind the logo (client review 10 Oct) — the mark sits
+   straight on the section. */
+.cd-root .cd-logostory__mark {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cd-root .cd-logostory__mark img { max-width: 420px; width: 100%; height: auto; }
+
+/* --- inline note / callout --- */
+.cd-root .cd-note {
+  margin-top: 30px;
+  padding: 20px 24px;
+  border-left: 2px solid var(--cd-gold);
+  background: rgba(198, 165, 103, .07);
+  font-size: var(--cd-fs-body);
+  line-height: var(--cd-lh-body);
+  color: var(--cd-on-dark-mu);
+}
+.cd-root .cd-light .cd-note,
+.cd-root .cd-cream .cd-note {
+  border-left-color: var(--cd-gold-dk);
+  background: rgba(198, 165, 103, .13);
+  color: var(--cd-on-light-mu);
+}
+
+/* --- button row --- */
+.cd-root .cd-btnrow { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+.cd-root .cd-btnrow--center { justify-content: center; }
+
+/* dark-surface FAQ colours now live with the FAQ block above */
+
+/* --- inner-page responsive --- */
+@media (max-width: 1100px) {
+  .cd-root .cd-specstrip__in { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .cd-root .cd-specitem:nth-child(3) { border-left: 0; padding-left: 0; }
+  .cd-root .cd-feats     { grid-template-columns: repeat(2, 1fr); }
+  .cd-root .cd-feats--3  { grid-template-columns: repeat(2, 1fr); }
+  .cd-root .cd-shades    { grid-template-columns: repeat(2, 1fr); }
+  .cd-root .cd-usecards,
+  .cd-root .cd-usecards--3 { grid-template-columns: repeat(2, 1fr); }
+  .cd-root .cd-spec      { grid-template-columns: 1fr; gap: 34px; }
+  .cd-root .cd-logostory { grid-template-columns: 1fr; gap: 34px; }
+}
+
+@media (max-width: 640px) {
+  .cd-root .cd-specstrip__in { grid-template-columns: 1fr; gap: 16px; }
+  .cd-root .cd-specitem  { border-left: 0; padding-left: 0; }
+  .cd-root .cd-feats,
+  .cd-root .cd-feats--3,
+  .cd-root .cd-feats--2  { grid-template-columns: 1fr; }
+  .cd-root .cd-shades    { grid-template-columns: 1fr; }
+  .cd-root .cd-usecards,
+  .cd-root .cd-usecards--3 { grid-template-columns: 1fr; }
+  .cd-root .cd-panels,
+  .cd-root .cd-panels--3 { grid-template-columns: 1fr; }
+  .cd-root .cd-list--2   { grid-template-columns: 1fr; }
+  .cd-root .cd-spectable th { width: 46%; font-size: var(--cd-fs-meta); }
+  .cd-root .cd-logostory__mark { padding: 28px; }
+  .cd-root .cd-btnrow .cd-btn { flex: 1 1 100%; justify-content: center; }
+  /* long labels must wrap rather than push the grid wider than the phone */
+  .cd-root .cd-btn { padding: 16px 22px; font-size: 14px; letter-spacing: .1em;
+                     white-space: normal; text-align: center; justify-content: center; }
+}
+
+/* ==========================================================================
+   18. COLOUR SWATCHES  (Customise page)
+   ========================================================================== */
+.cd-root .cd-swatches {
+  margin-top: 44px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.cd-root .cd-swatch { min-width: 0; text-align: center; }
+.cd-root .cd-swatch__chip {
+  height: 120px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .26);
+}
+.cd-root .cd-light .cd-swatch__chip,
+.cd-root .cd-cream .cd-swatch__chip { border-color: rgba(20, 19, 22, .16); }
+.cd-root .cd-swatch__name {
+  display: block;
+  margin-top: 14px;
+  font-family: var(--cd-label);
+  font-size: var(--cd-fs-label);
+  font-weight: var(--cd-w-med);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--cd-gold);
+}
+.cd-root .cd-light .cd-swatch__name,
+.cd-root .cd-cream .cd-swatch__name { color: var(--cd-gold-dk); }
+
+@media (max-width: 900px) {
+  .cd-root .cd-swatches { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 560px) {
+  .cd-root .cd-swatches { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .cd-root .cd-swatch__chip { height: 92px; }
+}
+
+/* ==========================================================================
+   19. PORTRAIT VIDEO SHOWCASE  (Our Projects page)
+   ========================================================================== */
+.cd-root .cd-vid {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.cd-root .cd-vid--flip { grid-template-columns: 1fr 420px; }
+.cd-root .cd-vid--flip .cd-vid__media { order: 2; }
+.cd-root .cd-vid__media {
+  min-width: 0;
+  aspect-ratio: 9 / 16;
+  border-radius: 6px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 26px 60px rgba(0, 0, 0, .42);
+}
+.cd-root .cd-vid__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, .06) 0%, rgba(0, 0, 0, .58) 100%);
+}
+.cd-root .cd-vid__play {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 74px; height: 74px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgba(198, 165, 103, .92);
+  color: #14110A;
+  font-size: 24px;
+  padding-left: 5px;
+}
+.cd-root .cd-vid__body { min-width: 0; }
+.cd-root .cd-vid__body h3 {
+  font-family: var(--cd-serif);
+  font-size: 30px;
+  font-weight: 500;
+  color: #fff;
+  margin-top: 12px;
+}
+.cd-root .cd-light .cd-vid__body h3,
+.cd-root .cd-cream .cd-vid__body h3 { color: var(--cd-on-light); }
+
+@media (max-width: 900px) {
+  .cd-root .cd-vid,
+  .cd-root .cd-vid--flip { grid-template-columns: 1fr; gap: 32px; }
+  .cd-root .cd-vid--flip .cd-vid__media { order: 0; }
+  .cd-root .cd-vid__media { max-width: 340px; }
+}
+
+/* ==========================================================================
+   20. CATEGORY FILTER PILLS  (Brochures page)
+   ========================================================================== */
+.cd-root .cd-filters {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.cd-root .cd-filter {
+  font-family: var(--cd-label);
+  font-size: var(--cd-fs-label);
+  font-weight: var(--cd-w-med);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: 1px solid var(--cd-line-dk);
+  background: transparent;
+  color: var(--cd-on-dark-mu);
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.cd-root .cd-filter:hover { border-color: var(--cd-gold); color: #fff; }
+.cd-root .cd-filter.is-active {
+  background: var(--cd-gold);
+  border-color: var(--cd-gold);
+  color: #14110A;
+}
+.cd-root .cd-filter:focus-visible { outline: 2px solid var(--cd-gold); outline-offset: 3px; }
+.cd-root .cd-light .cd-filter,
+.cd-root .cd-cream .cd-filter { border-color: var(--cd-line-lt); color: var(--cd-on-light-mu); }
+.cd-root .cd-light .cd-filter:hover,
+.cd-root .cd-cream .cd-filter:hover { border-color: var(--cd-gold-dk); color: var(--cd-on-light); }
+.cd-root .cd-light .cd-filter.is-active,
+.cd-root .cd-cream .cd-filter.is-active {
+  background: var(--cd-gold-dk);
+  border-color: var(--cd-gold-dk);
+  color: #fff;
+}
+
+/* contact trio in the assistance block */
+.cd-root .cd-reach {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  text-align: left;
+}
+.cd-root .cd-reach__item {
+  min-width: 0;
+  border: 1px solid var(--cd-line-dk);
+  border-radius: 6px;
+  padding: 24px 26px;
+  background: var(--cd-panel);
+}
+.cd-root .cd-reach__item span {
+  display: block;
+  font-family: var(--cd-label);
+  font-size: var(--cd-fs-label);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--cd-gold);
+}
+.cd-root .cd-reach__item a {
+  display: block;
+  margin-top: 10px;
+  font-size: var(--cd-fs-lede);
+  color: #fff;
+  word-break: break-word;
+}
+.cd-root .cd-reach__item a:hover { color: var(--cd-gold); }
+
+@media (max-width: 760px) {
+  .cd-root .cd-reach { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   21. SPLIT HERO  — copy on the left, photo on the right, category rail
+   ========================================================================== */
+.cd-root .cd-herosplit {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 640px;
+  background: var(--cd-black);
+  overflow: hidden;
+}
+.cd-root .cd-herosplit__copy {
+  min-width: 0;
+  align-self: center;
+  padding: 88px 56px 88px var(--cd-pad);
+  max-width: 720px;
+  margin-left: auto;
+}
+.cd-root .cd-herosplit__media {
+  position: relative;
+  min-width: 0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.06);
+  transition: transform 1.6s cubic-bezier(.22, .61, .36, 1);
+}
+.cd-root .cd-herosplit.is-in .cd-herosplit__media { transform: scale(1); }
+.cd-root .cd-herosplit__media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--cd-black) 0%, rgba(11, 11, 11, .55) 26%, rgba(11, 11, 11, 0) 62%);
+}
+.cd-root .cd-herosplit__rail {
+  position: absolute;
+  right: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  display: grid;
+  gap: 14px;
+  text-align: right;
+}
+.cd-root .cd-herosplit__rail span {
+  font-family: var(--cd-label);
+  font-size: 11.5px;
+  font-weight: var(--cd-w-med);
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .8);
+}
+.cd-root .cd-herosplit__rail span::after {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 1px;
+  margin-left: 10px;
+  vertical-align: middle;
+  background: var(--cd-gold);
+}
+
+@media (max-width: 1000px) {
+  .cd-root .cd-herosplit { grid-template-columns: 1fr; min-height: 0; }
+  .cd-root .cd-herosplit__copy { padding: 56px var(--cd-pad) 48px; margin-left: 0; max-width: none; order: 2; }
+  .cd-root .cd-herosplit__media { order: 1; min-height: 340px; }
+  .cd-root .cd-herosplit__media::before {
+    background: linear-gradient(180deg, rgba(11, 11, 11, .3) 0%, rgba(11, 11, 11, .2) 55%, var(--cd-black) 100%);
+  }
+  /* the rail is absolutely placed on desktop; stacked it must follow the copy,
+     not jump ahead of the photo into the first grid row */
+  .cd-root .cd-herosplit__rail { position: static; order: 3; transform: none;
+    margin: 0 var(--cd-pad) 48px; display: flex; flex-wrap: wrap; gap: 10px 18px; text-align: left; }
+}
+
+/* ==========================================================================
+   22. EXPANDING PANEL RAIL  — the Lakme-style accordion the client asked for
+   ========================================================================== */
+.cd-root .cd-panels-exp {
+  margin-top: 52px;
+  display: flex;
+  gap: 16px;
+  height: 460px;
+}
+.cd-root .cd-exp {
+  position: relative;
+  flex: 1 1 100px;
+  min-width: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: flex .9s cubic-bezier(.22, .61, .36, 1);
+}
+.cd-root .cd-exp.is-open { flex: 1 1 520px; }
+.cd-root .cd-exp__img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  /* starts zoomed in and eases out as the panel opens */
+  transform: scale(1.14);
+  transition: transform 1.1s cubic-bezier(.22, .61, .36, 1);
+}
+.cd-root .cd-exp.is-open .cd-exp__img { transform: scale(1); }
+.cd-root .cd-exp::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, .12) 0%, rgba(0, 0, 0, .84) 100%);
+}
+.cd-root .cd-exp__body {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 2;
+  padding: 26px 24px;
+}
+.cd-root .cd-exp__t {
+  font-family: var(--cd-label);
+  font-size: 13.5px;
+  font-weight: var(--cd-w-bold);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--cd-gold);
+  white-space: nowrap;
+}
+.cd-root .cd-exp__d {
+  max-width: 440px;
+  margin-top: 12px;
+  font-size: var(--cd-fs-meta);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .9);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .45s ease .25s, transform .45s ease .25s;
+}
+.cd-root .cd-exp.is-open .cd-exp__d { opacity: 1; transform: translateY(0); }
+/* an open panel is wide enough to wrap its label; a collapsed one must not */
+.cd-root .cd-exp.is-open .cd-exp__t { white-space: normal; max-width: 440px; }
+
+/* collapsed panels turn their label on its side, as the reference does */
+.cd-root .cd-exp:not(.is-open) .cd-exp__body {
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 24px 0;
+}
+.cd-root .cd-exp:not(.is-open) .cd-exp__t {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+@media (max-width: 900px) {
+  .cd-root .cd-panels-exp { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; height: auto; }
+  .cd-root .cd-exp, .cd-root .cd-exp.is-open { flex: none; height: 300px; }
+  .cd-root .cd-exp__img { transform: scale(1); }
+  .cd-root .cd-exp__body,
+  .cd-root .cd-exp:not(.is-open) .cd-exp__body { top: auto; display: block; padding: 22px 20px; }
+  .cd-root .cd-exp:not(.is-open) .cd-exp__t { writing-mode: horizontal-tb; transform: none; }
+  .cd-root .cd-exp__t { white-space: normal; }
+  .cd-root .cd-exp__d { opacity: 1; transform: none; }
+}
+@media (max-width: 560px) {
+  .cd-root .cd-panels-exp { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   23. BULLET HEADINGS with a left-to-right reveal
+   ========================================================================== */
+.cd-root .cd-bullets { margin-top: 48px; display: grid; gap: 0; overflow: hidden; }
+.cd-root .cd-bullet {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 26px 8px;
+  border-bottom: 1px solid var(--cd-line-dk);
+  opacity: 0;
+  transform: translateX(-36px);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.22, .61, .36, 1);
+}
+.cd-root .cd-bullet.is-in { opacity: 1; transform: translateX(0); }
+.cd-root .cd-light .cd-bullet,
+.cd-root .cd-cream .cd-bullet { border-bottom-color: var(--cd-line-lt); }
+.cd-root .cd-bullet__n {
+  flex: none;
+  font-family: var(--cd-label);
+  font-size: 14px;
+  font-weight: var(--cd-w-med);
+  letter-spacing: .14em;
+  color: var(--cd-gold);
+}
+.cd-root .cd-light .cd-bullet__n,
+.cd-root .cd-cream .cd-bullet__n { color: var(--cd-gold-dk); }
+.cd-root .cd-bullet__t {
+  font-family: var(--cd-serif);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: #fff;
+}
+.cd-root .cd-light .cd-bullet__t,
+.cd-root .cd-cream .cd-bullet__t { color: var(--cd-on-light); }
+.cd-root .cd-bullet__bar {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cd-gold), transparent);
+  opacity: .5;
+}
+@media (max-width: 640px) {
+  .cd-root .cd-bullet { gap: 14px; padding: 20px 4px; transform: translateX(-18px); }
+  .cd-root .cd-bullet.is-in { transform: translateX(0); }
+  .cd-root .cd-bullet__t { font-size: 21px; }
+  .cd-root .cd-bullet__bar { display: none; }
+}
+
+/* ==========================================================================
+   24. GOLD CIRCULAR ICON BADGES
+   ========================================================================== */
+.cd-root .cd-badges { display: flex; flex-wrap: wrap; gap: 34px; }
+.cd-root .cd-badge { width: 118px; text-align: center; }
+.cd-root .cd-badge__ring {
+  width: 72px; height: 72px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 1px solid var(--cd-gold);
+  display: grid; place-items: center;
+  transition: background .3s ease, transform .3s ease;
+}
+.cd-root .cd-badge__ring svg {
+  width: 30px; height: 30px;
+  fill: none; stroke: var(--cd-gold); stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.cd-root .cd-light .cd-badge__ring,
+.cd-root .cd-cream .cd-badge__ring { border-color: var(--cd-gold-dk); }
+.cd-root .cd-light .cd-badge__ring svg,
+.cd-root .cd-cream .cd-badge__ring svg { stroke: var(--cd-gold-dk); }
+.cd-root .cd-badge:hover .cd-badge__ring { transform: translateY(-4px); background: rgba(198, 165, 103, .12); }
+.cd-root .cd-badge span {
+  display: block;
+  margin-top: 14px;
+  font-family: var(--cd-label);
+  font-size: 11.5px;
+  font-weight: var(--cd-w-med);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--cd-gold);
+  line-height: 1.5;
+}
+.cd-root .cd-light .cd-badge span,
+.cd-root .cd-cream .cd-badge span { color: var(--cd-gold-dk); }
+
+/* ==========================================================================
+   25. DESIGN SWATCH GRID  — zoom on hover
+   ========================================================================== */
+.cd-root .cd-designs { margin-top: 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.cd-root .cd-design {
+  min-width: 0;
+  aspect-ratio: 4 / 3;
+  border-radius: 5px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1);
+  transition: transform .7s cubic-bezier(.22, .61, .36, 1);
+}
+.cd-root .cd-design:hover { transform: scale(1.06); }
+
+/* ==========================================================================
+   26. EQUAL-HEIGHT MEDIA SPLIT  — photo one side, panel the other
+   ========================================================================== */
+.cd-root .cd-duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  gap: 0;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.cd-root .cd-duo__media {
+  min-width: 0;
+  min-height: 440px;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1);
+  transition: transform 1s cubic-bezier(.22, .61, .36, 1);
+}
+.cd-root .cd-duo:hover .cd-duo__media { transform: scale(1.05); }
+.cd-root .cd-duo__panel {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 58px 54px;
+  background: var(--cd-cream);
+}
+.cd-root .cd-duo__panel .cd-h2 { color: var(--cd-on-light); }
+.cd-root .cd-duo__panel p {
+  font-size: var(--cd-fs-body); line-height: var(--cd-lh-body);
+  color: var(--cd-on-light-mu); margin-top: 16px;
+}
+@media (max-width: 900px) {
+  .cd-root .cd-duo { grid-template-columns: 1fr; }
+  .cd-root .cd-duo__media { min-height: 280px; }
+  .cd-root .cd-duo__panel { padding: 40px 26px; }
+}
+
+/* ==========================================================================
+   27. SHARED HOVER ZOOM for card photos + a larger display heading
+   ========================================================================== */
+.cd-root .cd-usecard__img,
+.cd-root .cd-colcard__img,
+.cd-root .cd-split__media {
+  transform: scale(1);
+  transition: transform .8s cubic-bezier(.22, .61, .36, 1);
+}
+.cd-root .cd-usecard:hover .cd-usecard__img,
+.cd-root .cd-colcard:hover .cd-colcard__img,
+.cd-root .cd-split:hover .cd-split__media { transform: scale(1.05); }
+.cd-root .cd-usecard,
+.cd-root .cd-colcard { overflow: hidden; }
+
+.cd-root .cd-h2--xl { font-size: clamp(38px, 4.6vw, 64px); line-height: 1.08; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cd-root .cd-exp,
+  .cd-root .cd-exp__img,
+  .cd-root .cd-bullet,
+  .cd-root .cd-design,
+  .cd-root .cd-duo__media,
+  .cd-root .cd-herosplit__media,
+  .cd-root .cd-usecard__img,
+  .cd-root .cd-colcard__img,
+  .cd-root .cd-split__media { transition: none; }
+  .cd-root .cd-bullet { opacity: 1; transform: none; }
+}
+
+/* small rule under a display heading, e.g. "Classic Craftsmanship." */
+.cd-root .cd-label-rule {
+  margin-top: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--cd-line-dk);
+  font-family: var(--cd-label);
+  font-size: var(--cd-fs-label);
+  font-weight: var(--cd-w-med);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--cd-gold);
+}
+.cd-root .cd-light .cd-label-rule,
+.cd-root .cd-cream .cd-label-rule { color: var(--cd-gold-dk); border-bottom-color: var(--cd-line-lt); }
+
+/* closing CTA over a photograph */
+.cd-root .cd-cta--photo {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+.cd-root .cd-cta--photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(11, 11, 11, .95) 0%, rgba(11, 11, 11, .86) 45%, rgba(11, 11, 11, .68) 100%);
+}
+.cd-root .cd-cta--photo > * { position: relative; z-index: 2; }
+
+/* key-benefit cards carry a title only, so centre the icon over it */
+.cd-root .cd-feat h3 + .cd-btnrow { margin-top: 20px; }
+
+/* split whose photo matches the height of the copy beside it. Without this the
+   media keeps its 4/3 aspect-ratio and stretching the row makes it wider than
+   its grid column. */
+.cd-root .cd-split--match { align-items: stretch; }
+.cd-root .cd-split--match .cd-split__media {
+  aspect-ratio: auto;
+  width: 100%;
+  min-height: 420px;
+  align-self: stretch;
+}
+@media (max-width: 880px) {
+  .cd-root .cd-split--match .cd-split__media { min-height: 280px; }
+}
+
+/* the duo panel is cream even inside a dark section, so its eyebrow needs the
+   dark-gold that passes contrast on a light surface */
+.cd-root .cd-duo__panel .cd-eyebrow { color: var(--cd-gold-dk); }
+.cd-root .cd-duo__panel .cd-eyebrow::before { background: var(--cd-gold-dk); }
+
+/* photo splits clip their own hover zoom */
+.cd-root .cd-split__media { overflow: hidden; }
